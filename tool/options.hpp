@@ -147,7 +147,10 @@ namespace standardese_tool
         const boost::program_options::parsed_options& cmd_result,
         const boost::program_options::parsed_options& file_result)
     {
-        auto log = spdlog::stdout_logger_mt("standardese_log", map.at("color").as<bool>());
+        auto log = map.at("color").as<bool>() ?
+          spdlog::stdout_color_mt("standardese_log") :
+          spdlog::stdout_logger_mt("standardese_log");
+
         log->set_pattern("[%l] %v");
         if (map.at("verbose").as<bool>())
             log->set_level(spdlog::level::debug);
